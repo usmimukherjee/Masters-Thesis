@@ -1,0 +1,58 @@
+\chapter{Background}
+
+In this chapter, we introduce the required terminologies and concepts to follow the remaining of the thesis. 
+Section \ref{background:LM} discusses \acrfull{nlm}, a deep learning based approach to learn the probability distribution of a textual corpus. Section \ref{background:NMT} discusses \acrfull{nmt}, a deep neural network based approach for automated translation. Section \ref{background:StructuredIR} discusses structured information retrieval for question answering. Section \ref{background:WordEmbedding} describes embedding, the process of converting high dimensional vector data into low dimensional semantic representation. 
+Section \ref{domaintermsdef} discusses the definition of domain-specific terms or jargon that are present in software bug reports.
+Section \ref{background:TF-IDF} discusses TF-IDF, a statistical measure for determining the importance of a term in a document.\par
+
+\section {Neural Language Modelling}\label{background:LM}
+
+A language model is a probabilistic model for natural language texts. It generates the probability of occurrence of a word or a phrase within a given text corpus. Such probability distributions could be useful in various tasks. For example, in a text generation task, a language model predicts the next word $w_L$  on the basis of all preceding words and their probability of co-occurrence~\cite{hu2018deep,mahbub2023comprehending}.\par
+
+\begin{equation}
+    w_L = \arg\max_{w_v \in V} P(w_v | w_{L-1} w_{L-2} ... w_1)
+\end{equation}
+
+where $w_L$ is the next predicted word, $V$ is the vocabulary, and $w_{L-1}, w_{L-2}, ..., w_1$ are the previously predicted words.\par
+
+Neural language models use neural networks to capture the complex patterns and dependencies of natural language and leverage them to compute the probabilities of the next word. In particular, they attempt to predict the next word while estimating the numerical representation of the words and texts (a.k.a., embeddings)~\cite{zhang2021natural}. Our first study -- BugMentor -- uses neural language modelling to generate answers to follow-up questions. Our second study -- BugEnricher -- uses neural language modelling to generate explanations for domain-specific jargon.\par
+
+\section{Neural Machine Translation}\label{background:NMT}
+
+\acrfull{nmt} is an automated translation technique based on deep neural networks ~\cite{wu2016google}. NMT has made significant progress, capturing the attention of both researchers and practitioners. It supports various software engineering tasks such as automatic program repair~\cite{lutellier2020coconut,jiang2021cure}, commit message generation~\cite{jiang2019boosting}, and code summarization~\cite{leclair2019neural}. An \acrshort{nmt} model consists of two main components: an encoder and a decoder. The encoder accepts a sequence as input and uses Neural Language Modeling to construct a numerical representation of the input called the context vector. This context vector is then fed into the decoder, which, based on this vector, sequentially generates the target sequence, one token at a time. We use Transformer~\cite{raffel2020exploring,vaswani2017attention} based state of the art \acrshort{nmt} models -- CodeT5~\cite{wang2021codet5} and T5~\cite{raffel2020exploring} as a part of our studies. In our first study -- BugMentor, we use \acrshort{nmt} for generating answers to the follow-up questions from bug reports. In our second study -- BugEnricher, we use \acrshort{nmt} for generating explanations for domain-specific terms or jargon from bug reports.\par
+
+
+\section{Structured Information Retrieval} \label{background:StructuredIR}
+
+\acrfull{ir} is a popular method that facilitates access to vast repositories of information (e.g., World Wide Web).
+In traditional IR, there are two major components: query and corpus. The query consists of a few keywords, whereas the corpus represents a collection of searchable documents. These queries and corpus are preprocessed using standard natural language preprocessing techniques such as text normalization, stopword removal and lemmatization. The query corpus is also indexed by collecting various statistics such as term frequency (TF, the number of times a term occurs in a given document) and document frequency (DF, the number of documents in which the term appears)~\cite{saha2013improving}. These terms and document statistics are then used in algorithms such as TF-IDF and BM25. Traditional IR, however, does not take into account the underlying structure of the query and the corpus. Structured IR is found to be more effective in retrieving. It has the potential to reduce noise and spurious matching due to the structured nature of the search. For example, in our first study, BugMentor uses three main components of the bug reports -- title, description, and follow-up questions -- that are used to match with the corpus bug reports. Structured IR divides both query and document into granular abstractions and calculates the lexical similarity between them~\cite{saha2013improving}.
+   
+
+\section{Word Embedding} \label{background:WordEmbedding}
+
+Word embedding is a vector representation of words in a \acrfull{vsm}. It encodes the meaning of the word in such a way that semantically similar words are closer to each other within the vector space~\cite{moser2008comparative}. An embedding function $E: \mathcal{X} \rightarrow \mathbb{R}^d$ takes an input $X$ in the domain $\mathcal{X}$ and generates its vector representation in a $d$-dimensional vector space~\cite{cambronero2019deep}. Each word or phrase is mapped to a vector of real numbers that represent the meaning of the input~\cite{mahbub2022explaining}. 
+Word embedding can overcome issues faced by traditional \acrshort{vsm}, such as the sparse representation problem of one-hot encoding or the vocabulary mismatch issue of \acrshort{TF-IDF} and BM25. Several techniques employ neural networks to learn richer word representations, such as Word2Vec~\cite{mikolov2013distributed} and GloVe~\cite{pennington2014glove}. We use Word2Vec embeddings to determine semantic relevance between bug reports in our first study, BugMentor.
+
+\section{Domain-specific Terms or Jargon}\label{domaintermsdef}
+Domain-specific terms or jargon are specialized vocabularies for a particular application domain such as programming language, library or software. They may have specific meanings or interpretations unique to that domain. They can be categorized based on their type, application domain (e.g., Android, Firefox), domain concepts (e.g.,semantic labels/classes) ~\cite{kim2011classifying, fowler2010domain}. The explanations or meanings for domain-specific terms can be found in their corresponding documentation and glossary. In our second study, BugEnricher, we explain the domain-specific terms or jargon from several domains including two programming languages - Java and Python.
+
+\section{TF-IDF}\label{background:TF-IDF}
+Term Frequency - Inverse Document Frequency (TF-IDF) is a statistical measure of the importance of a term within a document. Each word in the document can have a \acrshort{TF-IDF} score. First, the Term Frequency (TF) is computed using the occurrence of each term within a document and can be normalized using the total number of terms in the document as follows.
+\begin{equation}
+\text{tf}(t, d) = \frac{\text{number of times term } t \text{ appears in document } d}{\text{total number of terms in document } d}
+\end{equation}
+Second, the Document Frequency (DF) refers to the number of documents containing the term. Words unique to a small percentage of documents (e.g., technical jargon terms) receive higher importance than the common words across all documents (e.g., a, the, and). Inverse Document Frequency (IDF) measures the rarity or uniqueness of a term across the entire collection of documents by inverting the DF as follows.
+\begin{equation}
+{ DF(t) = occurrence\ of\ term\ t\ in\ N\ documents \\}
+\end{equation}
+\begin{equation}
+    IDF(t) = log(N/(DF(t) + 1))
+\end{equation}
+Finally, the TF-IDF score is the product of the TF and IDF scores. The greater the TF-IDF score, the more significant the term in that document~\cite{tfidf}.
+\begin{equation}
+\text{tf-idf}(t, d) = \text{tf}(t, d) \times \text{idf}(t)
+\end{equation}
+We compute the TF-IDF score to determine the less frequent but important domain-specific terms or jargon from a bug report in our second study, BugEnricher.
+
+\section{Summary}
+In this chapter, we introduce different terminologies and background concepts to help one follow the remainder of the thesis. We discuss Neural Language Modelling in Section~\ref{background:LM}, deep learning based approach to learn the probability distribution of a textual corpus; Neural Machine Translation in Section~\ref{background:NMT}, a deep learning approach for automated translation; Structured Information Retrieval in Section \ref{background:StructuredIR} for effective retrieval of documents for a given query; Word Embeddings in Section~\ref{background:WordEmbedding} for vector representation of text; Section~\ref{domaintermsdef} defines domain-specific terms or jargon and TF-IDF in Section~\ref{background:TF-IDF} for determining important keywords in a document with respect to a collection of documents.

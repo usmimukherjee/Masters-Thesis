@@ -1,0 +1,180 @@
+\documentclass[12pt]{dalthesis}
+\usepackage{graphicx}
+% \usepackage[hidelinks]{hyperref}
+% \hypersetup{
+%   colorlinks=true,
+%   linkcolor=blue,
+%   citecolor=black,
+%   filecolor=magenta,
+%   urlcolor=blue, }
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{rotating}
+\usepackage[bottom=2in]{geometry}
+\usepackage{microtype}
+\usepackage[flushleft]{threeparttable}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+% \usepackage{hyperref}
+\usepackage{multirow}
+\usepackage{framed}
+\usepackage{booktabs}
+\usepackage[]{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage{numprint}
+\usepackage{listings}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+% https://ctan.mirror.rafal.ca/macros/latex/contrib/glossaries/glossaries-user.pdf
+\usepackage[acronym,toc,nonumberlist]{glossaries}
+\makeglossaries
+
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+\usepackage[style=ieee,minnames=1,maxcitenames=1]{biblatex} 
+\addbibresource{thesis.bib}
+\newcommand*{\citet}{\textcite}
+\newcommand*{\citep}{\parencite}
+\usepackage{subfig}
+\renewcommand{\listofalgorithms}{\listof{algorithm}{\listalgorithmname}}
+
+\RestyleAlgo{ruled}
+
+\newcommand{\pluseq}{\mathrel{+}=}
+\newcommand*{\permcomb}[4][0mu]{{{}^{#3}\mkern#1#2_{#4}}}
+\newcommand*{\comb}[1][-1mu]{\permcomb[#1]{C}}
+
+\colorlet{shadecolor}{gray!10}
+\colorlet{framecolor}{black}
+\newenvironment{frshaded}{%
+	\def\FrameCommand{\fboxrule=\FrameRule\fboxsep=\FrameSep \fcolorbox{framecolor}{shadecolor}}%
+	\MakeFramed {\FrameRestore}}%
+{\endMakeFramed}
+
+\newcommand{\customframedtextref}[1]{answer for issue \#58280}
+
+% \newacronym{svm}{SVM}{Support Vector Machine}
+% \newacronym{vsm}{VSM}{Vector Space Model}
+
+\begin{document}
+
+\title{Complementing Deficient Bug Reports with Missing Information Leveraging Neural Text Generation}
+\author{Usmi Mukherjee}
+
+% The following degrees are included in the current dalthesis.cls
+% class file:
+\mcs  % options are \mcs, \macs, \mec, \mhi, \phd, and \bcshon
+
+% If you degree is not included, you can set several options manually.
+% The following example shows the parameters for the \mcs degree.
+% However, if you need to set these parameters manually, please check
+% the correct names with the Faculty of Graduate Studies, and let the
+% maintainer of this class file know (Vlado Keselj, vlado@cs.dal.ca).
+% MCS Example:
+
+\degree{Master of Computer Science}
+\degreeinitial{M.C.Sc.}
+\faculty{Computer Science}
+\dept{Faculty of Computer Science}
+
+% Month and Year of Defence
+\defencemonth{December}\defenceyear{2023}
+
+\dedicate{To Baba and Maa for supporting me through all hardships and loving me unconditionally}
+
+% This sample thesis contains no tables nor figures, so there is no
+% need to include lists of tables and figures in the front matter:
+% \nolistoftables
+% \nolistoffigures
+
+\frontmatter
+
+\begin{abstract}
+\looseness=-1
+Software bug reports often lack crucial information (e.g., steps to reproduce, expected behaviour), which makes bug resolution challenging. A recent study found that 78\% of bug reports from open-source projects (e.g., Eclipse) contain less than 100 words each and thus require the developers to spend more time on bug resolution. According to an existing survey, 77\% of 327 professional developers from major technology companies (e.g., Google, Meta) consider missing information a major problem and emphasize complementing them with useful information (e.g., environment configuration). In this thesis, we propose and evaluate two novel approaches that complement deficient bug reports with relevant information using Generative AI. In our first study, we propose --- BugMentor --- a novel approach that combines structured information retrieval and neural text generation (e.g., CodeT5) to generate appropriate answers to the follow-up questions from bug reports. Our approach identifies past, relevant bug reports to a given bug report, constructs the context and then leverages it to generate the answers. According to our evaluation, BugMentor generates good answers and outperforms three existing baselines significantly in terms of four appropriate metrics (e.g., BLEU, Semantic Similarity). We also conduct a developer study involving 10 participants where BugMentor’s answers were found to be more accurate, precise, concise and useful. In our second study, we propose --- BugEnricher --- a novel approach that enriches bug reports with meaningful explanations using neural text generation. We fine-tuned the T5 model on software-specific vocabulary (e.g., Stack Overflow tags) to generate explanations against software-specific terms and jargon, which has the potential to enrich a bug report. Our evaluation using three performance metrics shows that BugEnricher generates understandable to good explanations according to Google’s standards and outperforms two baselines from the literature. We also conduct a case study to demonstrate the benefit of our bug report enhancement and found that it was able to improve an existing technique in detecting textually dissimilar duplicate bug reports, which has been reported as a major challenge. Given the empirical evidence above, our approaches have strong potential to support bug resolution and bug report management.
+\end{abstract}
+
+
+\include{chapters/abbvr}
+\printglossary[
+    type=\acronymtype,
+    title=List of Abbreviations Used,
+    toctitle=List of Abbreviations Used,
+    style=index
+]
+
+\begin{acknowledgements}
+
+\begin{figure}[!htbp]
+    \centering
+\includegraphics[width = 0.6\textwidth]{images/guru shlok.png}
+    \label{fig:guru}
+    \vspace{-0.5cm}
+\end{figure}
+
+This \textit{shlok} expresses the idea that \textit{guru} is revered as a divine entity, embodying the creative, preserving, and enlightening aspects of the divine. I would like to acknowledge and offer my sincere gratitude to the people who have played a pivotal role in shaping my academic journey at Dalhousie University.
+
+\looseness=-1
+First, I thank the Almighty, who granted me good health, intellectual capacity, and the fortitude to carry out my thesis. Then I want to express immense gratitude to my supervisor, Dr. Masud Rahman, for allowing me to join his research group and supporting me throughout my Master's studies. I thank him for motivating me and believing in me constantly, especially when I could not. His unwavering support, insightful feedback, and patience have been invaluable to me throughout my thesis work.
+
+I would like to express my sincere gratitude to Dr.\ Vlado Keselj and Dr.\ Tushar Sharma for their insightful feedback and thorough evaluation of my work. Their critical analysis and insightful comments have raised the standard and rigor of my thesis, and I sincerely appreciate their time and expertise.
+
+To my beloved parents, Samar Kumar Mukherjee and Madhumita Mukherjee, for their support and love in every capacity throughout my life. Their guidance, encouragement, and sacrifices have been instrumental in shaping the person I am today and achieving this significant milestone in my life.
+
+I would also like to thank my brother Udayan Mukherjee and my sister Shaniqua Mukherjee for guiding me all the way. Thank you for taking me to places that I never thought I could visit, for the amazing food and for also being my friends. I am also thankful to Flo for making me happy through the simplest of ways and being my unofficial mental health support dog. 
+
+I would like to acknowledge the irreplaceable support and affinity of my precious friends Nikita Rathi and Isaac Xu for their friendship, support, and shared experiences. In particular, I would like to thank Nikita for taking care of me when I was sick, teaching me how to cook and also making me food. I would like to thank Isaac, for being my support system through this journey, for cheering me up when I was sad, and for teaching me about transformers. I thank both of them for being my best friends, and I consider myself lucky to have them by my side.
+
+To all of the members of the Intelligent Automation in Software EngineeRing (RAISE) Lab -- Sigma Jahan, Ohiduzzaman Shuvo, Parvez Mahbub, Asif Samir, Riasat Mahbub, Shihui Gao, Lareina Yang, Callum MacNeil and Mehil B Shah with whom I have had the opportunity to grow as a researcher. I would also like to express my gratitude to all the members of the Software Maintenance and Analytics Research Team (SMART) Lab --- Indranil Palit, Gautam Shetty, Mootez Saad, Saurabhsingh Rajput and Himesh Nandani. I appreciate their efforts in making our work in the labs enjoyable and for engaging in meaningful discussions. In particular, I thank Sigma, Parvez, Shuvo and Mehil for making me feel at home despite being away from home. Special thanks go to Indranil and Mehil for bringing laughter to the group, especially on gloomy days.
+
+Furthermore, I would like to thank Dalhousie University and the Department of Computer Science for creating a stimulating learning environment and providing the necessary resources for my research. The outcome of this thesis has been greatly influenced by their drive for intellectual progress and their commitment to excellence. In particular, I would like to thank Dr. Michael McAllister and Megan Baker.
+
+Lastly, I extend my heartfelt thanks to all those who have supported me in various ways throughout this research endeavour. Your encouragement, advice, and assistance have been invaluable, and I am deeply grateful for your presence in my life.
+
+\end{acknowledgements}
+
+\mainmatter
+
+
+\input{chapters/Introduction}
+\input{chapters/Background}
+\input{chapters/BugMentor}
+\input{chapters/BugEnricher}
+\input{chapters/conclusion}
+
+\printbibliography
+
+\appendix
+\chapter{Complementary Materials}
+\section{Replication Package}
+\subsection{BugMentor}
+\textbf{GitLab Repository:} https://git.cs.dal.ca/umukherjee/bugmentor
+
+\subsection{BugEnricher}
+\textbf{GitLab Repository:} https://git.cs.dal.ca/umukherjee/bugenricher
+
+\end{document}
