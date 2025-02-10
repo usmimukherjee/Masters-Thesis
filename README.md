@@ -16,3 +16,9 @@ Software bug reports often lack crucial information (e.g., steps to reproduce, e
 URI : http://hdl.handle.net/10222/83339
 
 Slide Deck : https://speakerdeck.com/usmimukherjee/masters-thesis-usmi-mukherjee
+
+### Source Code
+
+The first work is answering follow-up question using a RAG based technique, the code will be updated soon.
+The second work is  enriching deficient software bug reports with domain term explanation using NLM and the code will be updated soon.
+The LaTeX code for my thesis is present under /src__thesis
